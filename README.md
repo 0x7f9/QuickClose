@@ -1,0 +1,55 @@
+# QuickClose
+
+### Why QuickClose Exists
+
+I like the way tiling window managers on Linux handle closing windows. On Windows, there’s no equivalent unless you break your hand with `Alt+F4` or grab the mouse. Therefore it's for anyone who wants to keep a fast, keyboard workflow on Windows.
+
+## Overview
+
+QuickClose lets you gracefully close the currently focused application using a key combination paired with a modifier key.
+
+By default, it supports **Windows Key + Shift + C** and **Alt + Shift + C**, so you can pick the combo that fits your keyboard style. The program runs silently in the background and will automatically add itself to your Startup folder, so it launches when Windows starts.
+
+Features:
+
+- Gracefully closes the focused window using `WM_CLOSE`, ensuring applications prompt for unsaved work
+- Minimal, lightweight, and efficient, using only the official Microsoft `windows` crate
+- Relies on Windows low level keyboard hook `WH_KEYBOARD_LL` to detect key combo
+
+## Installation
+
+### Requirements
+- Windows 10 or 11
+- Rust toolchain installed
+
+```bat
+git clone https://github.com/0x7f9/QuickClose.git
+cd quickclose
+
+REM debug build
+cargo build
+
+REM build release without console window
+cargo build --release --features no_console
+
+REM copy the built executable to current directory
+copy target\release\QuickClose.exe .
+
+REM run the app
+QuickClose.exe
+```
+
+### Usage
+
+Once QuickClose is running press one of the supported key combinations while a window is focused to close it gracefully. The program ensures that only the active window receives the close message, and child processes are unaffected unless explicitly managed by the closed window.
+
+Default Keybindings:
+
+- Windows Key + Shift + C
+- Alt + Shift + C
+
+Can be extended to:
+
+- Support additional modifier keys
+- Integrate into larger window management or automation workflows
+
