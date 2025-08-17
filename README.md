@@ -15,8 +15,9 @@ Features:
 - Gracefully closes the focused window using `WM_CLOSE`, ensuring applications prompt for unsaved work
 - Minimal, lightweight, and efficient, using only the official Microsoft `windows` crate
 - Relies on Windows low level keyboard hook `WH_KEYBOARD_LL` to detect key combo
+- System tray icon with a left/right click Exit menu for easy application termination
 
-## Installation
+## Build Instructions
 
 ### Requirements
 - Windows 10 or 11
@@ -25,9 +26,6 @@ Features:
 ```bat
 git clone https://github.com/0x7f9/QuickClose.git
 cd quickclose
-
-REM debug build
-cargo build
 
 REM build release without console window
 cargo build --release --features no_console
