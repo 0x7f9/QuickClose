@@ -1,7 +1,8 @@
-use std::{ffi::OsStr, io, mem::zeroed, os::windows::ffi::OsStrExt, thread};
+use std::{io, mem::zeroed, thread};
 
 use windows::{
-    core::{w, Error, PCWSTR}, Win32::{
+    core::{w, PCWSTR}, 
+    Win32::{
         Foundation::{HINSTANCE, HWND, LPARAM, LRESULT, POINT, WPARAM}, System::LibraryLoader::GetModuleHandleW, 
         UI::{
             Shell::{Shell_NotifyIconW, NIF_ICON, NIF_MESSAGE, NIF_TIP, NIM_ADD, NIM_DELETE, NOTIFYICONDATAW}, 
