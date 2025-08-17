@@ -13,6 +13,7 @@ use crate::keys::{
 };
 
 const WM_CLOSE: u32 = 0x0010;
+const WH_KEYBOARD_LL: i32 = 13;
 
 unsafe extern "system" fn keyboard_proc(
     n_code: i32,
@@ -57,19 +58,14 @@ unsafe extern "system" fn keyboard_proc(
     CallNextHookEx(None, n_code, w_param, l_param)
 }
 
-pub fn load_hook(hinst: HMODULE) -> io::Result<HHOOK> {
-    const WH_KEYBOARD_LL: WINDOWS_HOOK_ID = WINDOWS_HOOK_ID(13);
-    let hmod = HINSTANCE(hinst.0);
-    let flags = 0;
+pub unsafe fn load_hook(hinst: HMODULE) -> io::Result<HHOOK> {
+    let result = SetWindowsHookExW(
+        WINDOWS_HOOK_ID(WH_KEYBOARD_LL), 
+        Some(keyboard_proc),
+        Some(HINSTANCE(hinst.0)),
+        0
+    )?;
 
-    unsafe {
-        let result = SetWindowsHookExW(
-            WH_KEYBOARD_LL, 
-            Some(keyboard_proc),
-            Some(hmod),
-            flags
-        )?;
-
-        Ok(result)
-    }
+    Ok(result)
 }
+

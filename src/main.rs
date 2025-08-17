@@ -1,6 +1,7 @@
 #![cfg_attr(all(windows, feature = "no_console"), windows_subsystem = "windows")]
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
+#![allow(unused_must_use)]
 
 use std::{
     io, env, fs, 
@@ -11,11 +12,17 @@ use windows::{
     core::PCWSTR,
     Win32::Foundation::HWND,
     Win32::System::LibraryLoader::GetModuleHandleW,
-    Win32::UI::WindowsAndMessaging::{DispatchMessageW, GetMessageW, MSG, TranslateMessage, UnhookWindowsHookEx},
+    Win32::UI::WindowsAndMessaging::{
+        DispatchMessageW, GetMessageW, MSG, 
+        TranslateMessage, UnhookWindowsHookEx
+    }
 };
+
+use crate::tray::start_tray;
 
 mod keys;
 mod hook;
+mod tray;
 
 fn add_to_startup() -> io::Result<()> {
     let exe = env::current_exe()?;
@@ -40,12 +47,14 @@ fn main() {
         eprintln!("Failed to add to startup: {}", e);
     }
 
+    start_tray("QuickClose");
+
     unsafe {
         let hinst = GetModuleHandleW(PCWSTR::null()).unwrap();
         let hook = hook::load_hook(hinst).expect("Failed to install hook");
 
         if hook.0.is_null() {
-            panic!("SetWindowsHookExW returned NULL");
+            panic!("Keyboard hook unable to be set");
         }
 
         let mut msg: MSG = zeroed();
