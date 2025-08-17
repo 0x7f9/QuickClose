@@ -2,7 +2,7 @@
 
 ### Why QuickClose Exists
 
-I like the way tiling window managers on Linux handle closing windows. On Windows, there’s no equivalent unless you break your hand with `Alt+F4` or grab the mouse. Therefore it's for anyone who wants to keep a fast, keyboard workflow on Windows.
+I like the way tiling window managers on Linux handle closing windows. On Windows, there’s no equivalent unless you break your hand with `Alt+F4` or grab the mouse.
 
 ## Overview
 
